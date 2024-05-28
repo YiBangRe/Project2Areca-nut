@@ -8,7 +8,7 @@ public class JawMover : MonoBehaviour
     Vector3 worldMousePositon = Vector3.zero;
     LayerMask lowerJawLayer;
     Vector3 dragDisplacement;
-    [HideInInspector] public Collider2D targetCollider;
+    Collider2D targetCollider;
     [SerializeField] private GameObject allLowerJaw;
     private bool isMouseBtnLeftDown = false;
 
@@ -32,17 +32,21 @@ public class JawMover : MonoBehaviour
 
                 if (!isMouseBtnLeftDown)
                 {
-                    
+
                     dragDisplacement = allLowerJaw.transform.position - worldMousePositon;
                 }
 
                 isMouseBtnLeftDown = true;
-                allLowerJaw.transform.position = worldMousePositon + dragDisplacement;  
+                allLowerJaw.transform.position = worldMousePositon + dragDisplacement;
             }
             else
             {
                 isMouseBtnLeftDown = false;
             }
+        }
+        else 
+        {
+            isMouseBtnLeftDown = false;
         }
         
     }
