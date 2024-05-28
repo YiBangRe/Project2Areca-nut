@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - LowerJaw
+  - BackTriggerZone
+  - BingLang
   layers:
   - Default
   - TransparentFX

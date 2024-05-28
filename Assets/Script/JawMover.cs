@@ -53,11 +53,13 @@ public class JawMover : MonoBehaviour
         {
             isMouseBtnLeftDown = false;
             isGetBasement = false;
+            allJawRb.velocity = Vector2.zero;
         }
         if (isGetBasement)
         {
-            Vector3 directon = (worldMousePositon + dragDisplacement - allLowerJaw.transform.position).normalized * velocity * Time.deltaTime;
-            allJawRb.velocity = new Vector2(directon.x, directon.y);
+            Vector3 directon = worldMousePositon + dragDisplacement - allLowerJaw.transform.position;
+            Vector3 newPos = Vector3.MoveTowards(allLowerJaw.transform.position, worldMousePositon + dragDisplacement, Mathf.Min(velocity * Time.deltaTime, directon.magnitude)); 
+            allJawRb.MovePosition(newPos);
         }
     }
 }
