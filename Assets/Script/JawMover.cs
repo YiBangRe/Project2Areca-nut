@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JawMover : MonoBehaviour
@@ -10,18 +11,22 @@ public class JawMover : MonoBehaviour
     Vector3 dragDisplacement;
     Collider2D targetCollider;
     [SerializeField] private GameObject allLowerJaw;
+    Rigidbody2D allJawRb;
     private bool isMouseBtnLeftDown = false;
+    private bool isGetBasement = false;
+    [SerializeField] private float velocity = 20f;
 
     // Start is called before the first frame update
     void Start()
     {
        lowerJawLayer = LayerMask.GetMask("LowerJaw");
+        allJawRb = allLowerJaw.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             screenMousePosition = Input.mousePosition;
             worldMousePositon = Camera.main.ScreenToWorldPoint(screenMousePosition);
@@ -37,7 +42,7 @@ public class JawMover : MonoBehaviour
                 }
 
                 isMouseBtnLeftDown = true;
-                allLowerJaw.transform.position = worldMousePositon + dragDisplacement;
+                isGetBasement = true;
             }
             else
             {
@@ -47,7 +52,12 @@ public class JawMover : MonoBehaviour
         else 
         {
             isMouseBtnLeftDown = false;
+            isGetBasement = false;
         }
-        
+        if (isGetBasement)
+        {
+            Vector3 directon = (worldMousePositon + dragDisplacement - allLowerJaw.transform.position).normalized * velocity * Time.deltaTime;
+            allJawRb.velocity = new Vector2(directon.x, directon.y);
+        }
     }
 }
